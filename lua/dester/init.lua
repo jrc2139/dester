@@ -1,11 +1,11 @@
 local global_options = {
-	identifiers = { "testGoldens", "testWidgets" },
+	identifiers = { "testGoldens", "testWidgets", "group" },
 	terminal_cmd = ":vsplit | terminal",
 	path_to_jest_debug = "flutter test",
 	path_to_jest_run = "flutter test",
 	stringCharacters = { "'", '"' },
 	expressions = { "call_expression" },
-	prepend = { "group" },
+	prepend = { "main" },
 	regexStartEnd = true,
 	escapeRegex = true,
 	dap = {
@@ -111,6 +111,7 @@ local function remove_quotations(stringCharacters, str)
 end
 
 local function get_identifier(node, stringCharacters)
+	print(node)
 	local child = node:child(1)
 	local arguments = child:child(1)
 	return remove_quotations(stringCharacters, vim.treesitter.query.get_node_text(arguments, 0))
@@ -223,9 +224,9 @@ local function run(o)
 	end
 	if cmd == nil then
 		if options.run_file == true then
-			cmd = (options.path_to_jest or options.path_to_jest_run) .. " -- $file"
+			cmd = (options.path_to_jest or options.path_to_jest_run) .. " $file"
 		else
-			cmd = (options.path_to_jest or options.path_to_jest_run) .. " -t '$result' -- $file"
+			cmd = (options.path_to_jest or options.path_to_jest_run) .. " -t '$result' $file"
 		end
 	end
 	if file == nil then
@@ -244,7 +245,7 @@ local function run(o)
 	end
 
 	-- local adjusted_cmd = vim.fn.escape(vim.fn.escape(adjust_cmd(cmd, result, file), "\\"), '\\')
-	local adjusted_cmd = vim.fn.escape(adjust_cmd(cmd, result, file), "\\")
+	local adjusted_cmd = vim.fn.escape(adjust_cmd(cmd, result, file), "")
 	local terminal_cmd = options.terminal_cmd
 	if
 		global_options.cache.last_used_term_buf ~= nil
