@@ -1,8 +1,8 @@
-# jester
+# dester
 
 A [Neovim](https://neovim.io/) plugin to easily run and debug [Jest](https://jestjs.io/) tests.
 
-![jester](https://user-images.githubusercontent.com/1009936/125203183-ba543b00-e277-11eb-83a2-d7fe912cdec8.gif)
+![dester](https://user-images.githubusercontent.com/1009936/125203183-ba543b00-e277-11eb-83a2-d7fe912cdec8.gif)
 
 ## Installation
 
@@ -11,12 +11,15 @@ Requirements: [Neovim](https://neovim.io/) >= 0.5, [nvim-treesitter](https://git
 Make sure that the JavaScript/TypeScript parser for [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) is installed and enabled.
 
 For [vim-plug](https://github.com/junegunn/vim-plug):
+
 ```
-Plug 'David-Kunz/jester'
+Plug 'David-Kunz/dester'
 ```
+
 For [packer](https://github.com/wbthomason/packer.nvim):
+
 ```
-use 'David-Kunz/jester'
+use 'David-Kunz/dester'
 ```
 
 ## Usage
@@ -24,37 +27,37 @@ use 'David-Kunz/jester'
 ### Run nearest test(s) under the cursor
 
 ```
-:lua require"jester".run()
+:lua require"dester".run()
 ```
 
 ### Run current file
 
 ```
-:lua require"jester".run_file()
+:lua require"dester".run_file()
 ```
 
 ### Run last test(s)
 
 ```
-:lua require"jester".run_last()
+:lua require"dester".run_last()
 ```
 
 ### Debug nearest test(s) under the cursor
 
 ```
-:lua require"jester".debug()
+:lua require"dester".debug()
 ```
 
 ### Debug current file
 
 ```
-:lua require"jester".debug_file()
+:lua require"dester".debug_file()
 ```
 
 ### Debug last test(s)
 
 ```
-:lua require"jester".debug_last()
+:lua require"dester".debug_last()
 ```
 
 ## Options
@@ -64,7 +67,7 @@ You can specify global options using the `setup` function.
 Example:
 
 ```lua
-require("jester").setup({
+require("dester").setup({
   dap = {
     console = "externalTerminal"
   }
@@ -75,12 +78,12 @@ These are the defaults:
 
 ```lua
 {
-  cmd = "jest -t '$result' -- $file", -- run command
-  identifiers = {"test", "it"}, -- used to identify tests
-  prepend = {"describe"}, -- prepend describe blocks
+  cmd = "flutter test -t '$result' -- $file", -- run command
+  identifiers = {"testWidgets", "testGoldens"}, -- used to identify tests
+  prepend = {"group"}, -- prepend describe blocks
   expressions = {"call_expression"}, -- tree-sitter object used to scan for tests/describe blocks
-  path_to_jest_run = 'jest' -- used to run tests
-  path_to_jest_debug = './node_modules/bin/jest' -- used for debugging
+  path_to_jest_run = 'fluter test' -- used to run tests
+  path_to_jest_debug = 'flutter test' -- used for debugging
   terminal_cmd = ":vsplit | terminal" -- used to spawn a terminal for running tests, for debugging refer to nvim-dap's config
   dap = { -- debug adapter configuration
     type = 'node2',
@@ -101,5 +104,5 @@ These are the defaults:
 You can also overwrite the options for each function call, for example
 
 ```lua
-:lua require"jester".debug({ dap = { console = "externalTerminal" } })
+:lua require"dester".debug({ dap = { console = "externalTerminal" } })
 ```
